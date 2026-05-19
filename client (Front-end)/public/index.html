@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <!-- Define o conjunto de caracteres para o documento -->
+    <meta charset="UTF-8" />
+    <!-- Ajuda o navegador a usar o layout correto em dispositivos móveis -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Título que aparece na aba do navegador -->
+    <title>Login - Projeto de Atividades</title>
+    <!-- Link para o arquivo de estilos CSS deste site -->
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Conteúdo principal da página -->
+    <div class="container">
+      <!-- Cabeçalho com o nome do site -->
+      <header>
+        <h1>Projeto de Atividades</h1>
+        <p>Entre com seu usuário para acessar aluno ou professor.</p>
+      </header>
+
+      <!-- Formulário de login básico -->
+      <main>
+        <section class="card">
+          <h2>Login</h2>
+          <form>
+            <!-- Campo de email ou usuário -->
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="seu@email.com" />
+
+            <!-- Campo de senha -->
+            <label for="password">Senha</label>
+            <input id="password" type="password" placeholder="******" />
+
+            <!-- Botão de enviar formulário -->
+            <button type="submit">Entrar</button>
+          </form>
+
+          <!-- Links para páginas de aluno e professor -->
+          <div class="links">
+            <a href="aluno.html">Área do Aluno</a>
+            <a href="professor.html">Área do Professor</a>
+          </div>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>

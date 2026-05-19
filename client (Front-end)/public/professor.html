@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <!-- Configurações de página e responsividade -->
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Área do Professor</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Cabeçalho específico para o professor -->
+      <header>
+        <h1>Área do Professor</h1>
+        <p>Crie matérias, exclua e acompanhe atividades dos alunos.</p>
+      </header>
+
+      <main>
+        <!-- Card para criação de matéria -->
+        <section class="card">
+          <h2>Criar Matéria</h2>
+          <form>
+            <label for="subject">Nome da matéria</label>
+            <input id="subject" type="text" placeholder="Ex: Matemática" />
+            <button type="submit">Criar Matéria</button>
+          </form>
+        </section>
+
+        <!-- Card para gerenciar matérias existentes -->
+        <section class="card">
+          <h2>Minhas Matérias</h2>
+          <ul class="list">
+            <li>
+              Matemática <button class="small">Excluir</button>
+            </li>
+            <li>
+              Biologia <button class="small">Excluir</button>
+            </li>
+          </ul>
+        </section>
+
+        <!-- Card para ver atividades enviadas e recebidas -->
+        <section class="card">
+          <h2>Atividades</h2>
+          <article class="activity">
+            <h3>Prova de Ciências</h3>
+            <p>Prazo de entrega: 12/06</p>
+            <p>Respostas recebidas: 8</p>
+          </article>
+          <article class="activity">
+            <h3>Trabalho de Geografia</h3>
+            <p>Prazo de entrega: 15/06</p>
+            <p>Respostas recebidas: 5</p>
+          </article>
+        </section>
+      </main>
+
+      <!-- Link para voltar ao login -->
+      <footer>
+        <a href="index.html">Voltar para login</a>
+      </footer>
+    </div>
+  </body>
+</html>
