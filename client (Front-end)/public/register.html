@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cadastro - Projeto de Atividades</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Cadastro</h1>
+        <p>Crie sua conta para acessar o sistema como aluno ou professor.</p>
+      </header>
+
+      <main>
+        <section class="card">
+          <h2>Registrar novo usuário</h2>
+          <form id="registerForm">
+            <label for="name">Nome</label>
+            <input id="name" type="text" placeholder="Seu nome" />
+
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="seu@email.com" />
+
+            <label for="password">Senha</label>
+            <input id="password" type="password" placeholder="******" />
+
+            <label for="role">Tipo de conta</label>
+            <select id="role" name="role">
+              <option value="student">Aluno</option>
+              <option value="teacher">Professor</option>
+            </select>
+
+            <button type="submit">Cadastrar</button>
+          </form>
+
+          <div class="links">
+            <p>Já tem conta? <a href="index.html">Faça login</a></p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      document.getElementById('registerForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const role = document.getElementById('role').value;
+
+        if (!name || !email || !password) {
+          alert('Preencha todos os campos antes de continuar.');
+          return;
+        }
+
+        try {
+          const response = await fetch('http://localhost:3001/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, email, password, role }),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            alert(data.message || 'Falha ao cadastrar usuário.');
+            return;
+          }
+
+          alert('Cadastro realizado com sucesso! Faça login para continuar.');
+          window.location.href = 'index.html';
+        } catch (error) {
+          console.error('Erro no cadastro:', error);
+          alert('Não foi possível conectar ao servidor. Verifique se o backend está rodando.');
+        }
+      });
+    </script>
+  </body>
+</html>

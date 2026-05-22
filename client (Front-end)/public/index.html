@@ -19,30 +19,194 @@
         <p>Entre com seu usuário para acessar aluno ou professor.</p>
       </header>
 
-      <!-- Formulário de login básico -->
+      <!-- Formulário de login e cadastro -->
       <main>
         <section class="card">
-          <h2>Login</h2>
-          <form>
-            <!-- Campo de email ou usuário -->
-            <label for="email">Email</label>
-            <input id="email" type="email" placeholder="seu@email.com" />
+          <div class="tabs">
+            <button id="loginTab" class="active">Login</button>
+            <button id="registerTab">Cadastro</button>
+          </div>
 
-            <!-- Campo de senha -->
-            <label for="password">Senha</label>
-            <input id="password" type="password" placeholder="******" />
+          <div id="loginPanel">
+            <h2>Login</h2>
+            <form id="loginForm">
+              <label for="email">Email</label>
+              <input id="email" type="email" placeholder="seu@email.com" />
 
-            <!-- Botão de enviar formulário -->
-            <button type="submit">Entrar</button>
-          </form>
+              <label for="password">Senha</label>
+              <input id="password" type="password" placeholder="******" />
 
-          <!-- Links para páginas de aluno e professor -->
-          <div class="links">
-            <a href="aluno.html">Área do Aluno</a>
-            <a href="professor.html">Área do Professor</a>
+              <label for="role">Entrar como</label>
+              <select id="role" name="role">
+                <option value="student">Aluno</option>
+                <option value="teacher">Professor</option>
+              </select>
+
+              <button type="submit">Entrar</button>
+            </form>
+
+            <div class="links">
+              <p>Não tem conta? <a href="#" id="showRegister">Cadastre-se</a></p>
+            </div>
+          </div>
+
+          <div id="registerPanel" style="display: none;">
+            <h2>Cadastro</h2>
+            <form id="registerForm">
+              <label for="name">Nome</label>
+              <input id="name" type="text" placeholder="Seu nome" />
+
+              <label for="registerEmail">Email</label>
+              <input id="registerEmail" type="email" placeholder="seu@email.com" />
+
+              <label for="registerPassword">Senha</label>
+              <input id="registerPassword" type="password" placeholder="******" />
+
+              <label for="confirmPassword">Confirmar senha</label>
+              <input id="confirmPassword" type="password" placeholder="Confirme a senha" />
+
+              <label for="registerRole">Tipo de conta</label>
+              <select id="registerRole" name="registerRole">
+                <option value="student">Aluno</option>
+                <option value="teacher">Professor</option>
+              </select>
+
+              <button type="submit">Registrar</button>
+            </form>
+
+            <div class="links">
+              <p>Já tem conta? <a href="#" id="showLogin">Faça login</a></p>
+            </div>
           </div>
         </section>
       </main>
     </div>
+    <script>
+      const apiLoginUrl = 'http://localhost:3001/auth/login';
+      const apiRegisterUrl = 'http://localhost:3001/auth/register';
+      const pageByRole = {
+        student: 'aluno',
+        teacher: 'professor',
+      };
+
+      const loginTab = document.getElementById('loginTab');
+      const registerTab = document.getElementById('registerTab');
+      const loginPanel = document.getElementById('loginPanel');
+      const registerPanel = document.getElementById('registerPanel');
+
+      function showLogin() {
+        loginTab.classList.add('active');
+        registerTab.classList.remove('active');
+        loginPanel.style.display = 'block';
+        registerPanel.style.display = 'none';
+      }
+
+      function showRegister() {
+        loginTab.classList.remove('active');
+        registerTab.classList.add('active');
+        loginPanel.style.display = 'none';
+        registerPanel.style.display = 'block';
+      }
+
+      loginTab.addEventListener('click', showLogin);
+      registerTab.addEventListener('click', showRegister);
+      document.getElementById('showRegister').addEventListener('click', function (event) {
+        event.preventDefault();
+        showRegister();
+      });
+      document.getElementById('showLogin').addEventListener('click', function (event) {
+        event.preventDefault();
+        showLogin();
+      });
+
+      document.getElementById('loginForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const email = document.getElementById('email').value.trim();
+        const password = document.getElementById('password').value.trim();
+        const role = document.getElementById('role').value;
+
+        if (!email || !password) {
+          alert('Preencha email e senha antes de continuar.');
+          return;
+        }
+
+        try {
+          const response = await fetch(apiLoginUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, password }),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            alert(data.message || 'Falha no login');
+            return;
+          }
+
+          const user = data.user;
+          if (user.role !== role) {
+            alert('Selecione o tipo de acesso correto (Aluno ou Professor).');
+            return;
+          }
+
+          localStorage.setItem('loggedIn', 'true');
+          localStorage.setItem('userRole', user.role);
+          localStorage.setItem('userName', user.name);
+          window.location.href = pageByRole[user.role] + '.html';
+        } catch (error) {
+          console.error('Erro de login:', error);
+          alert('Não foi possível conectar ao servidor de login. Verifique se o back-end está rodando.');
+        }
+      });
+
+      document.getElementById('registerForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const name = document.getElementById('name').value.trim();
+        const email = document.getElementById('registerEmail').value.trim();
+        const password = document.getElementById('registerPassword').value.trim();
+        const confirmPassword = document.getElementById('confirmPassword').value.trim();
+        const role = document.getElementById('registerRole').value;
+
+        if (!name || !email || !password || !confirmPassword) {
+          alert('Preencha todos os campos antes de continuar.');
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          alert('As senhas não coincidem.');
+          return;
+        }
+
+        try {
+          const response = await fetch(apiRegisterUrl, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ name, email, password, role }),
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            alert(data.message || 'Falha no cadastro');
+            return;
+          }
+
+          alert('Cadastro realizado com sucesso! Agora faça login.');
+          showLogin();
+          document.getElementById('email').value = email;
+          document.getElementById('password').value = '';
+        } catch (error) {
+          console.error('Erro no cadastro:', error);
+          alert('Não foi possível conectar ao servidor. Verifique se o backend está rodando.');
+        }
+      });
+    </script>
   </body>
 </html>
