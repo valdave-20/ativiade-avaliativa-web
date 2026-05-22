@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login - Projeto de Atividades</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Projeto de Atividades</h1>
+        <p>Entre com seu usuário para acessar aluno ou professor.</p>
+      </header>
+
+      <main>
+        <section class="card">
+          <h2>Login</h2>
+          <form id="loginForm">
+            <label for="email">Email</label>
+            <input id="email" type="email" placeholder="seu@email.com" required />
+
+            <label for="password">Senha</label>
+            <input id="password" type="password" placeholder="******" required />
+
+            <button type="submit">Entrar</button>
+          </form>
+
+          <div class="links">
+            <p>Não tem conta? <a href="#" onclick="alert('Funcionalidade de registro em breve!')">Registre-se</a></p>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const form = document.getElementById('loginForm');
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        try {
+          const response = await fetch('/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password })
+          });
+
+          const data = await response.json();
+
+          if (response.ok) {
+            // Salva o usuário no localStorage para usar nas outras páginas
+            localStorage.setItem('user', JSON.stringify(data.user));
+            
+            if (data.user.role === 'student') {
+              window.location.href = 'aluno.html';
+            } else {
+              window.location.href = 'professor.html';
+            }
+          } else {
+            alert('Erro: ' + data.message);
+          }
+        } catch (error) {
+          console.error('Erro ao conectar com o servidor:', error);
+          alert('Não foi possível conectar ao servidor. Verifique se o back-end está rodando.');
+        }
+      });
+    </script>
+  </body>
+</html>
