@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Professor</title>
+    <link rel="shortcut icon" href="../../img/logo.jpeg" type="image/x-icon">
+    <link rel="stylesheet" href="../../login/login.css">
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <h2 id="userName">Professor</h2>
+            <button class="logout-btn" onclick="logout()">Sair</button>
+        </nav>
+
+        <div class="card">
+            <h3>Criar Nova Matéria</h3>
+            <form id="subjectForm">
+                <input type="text" id="subName" placeholder="Nome da Matéria" required>
+                <textarea id="subDesc" placeholder="Descrição"></textarea>
+                <button type="submit">Criar Matéria</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3>Criar Atividade</h3>
+            <form id="activityForm">
+                <select id="subSelect" required>
+                    <option value="">Selecione a Matéria</option>
+                </select>
+                <input type="text" id="actTitle" placeholder="Título da Atividade" required>
+                <textarea id="actDesc" placeholder="Instruções"></textarea>
+                <input type="date" id="actDate">
+                <button type="submit">Postar Atividade</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="professsor.js"></script>
+</body>
+</html>

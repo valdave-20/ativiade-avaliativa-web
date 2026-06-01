@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área do Aluno</title>
+    <link rel="stylesheet" href="../../login/login.css">
+</head>
+<body>
+    <div class="container">
+        <nav>
+            <h2 id="userName">Aluno</h2>
+            <button class="logout-btn" onclick="logout()">Sair</button>
+        </nav>
+        
+        <div class="card">
+            <h3>Minhas Matérias</h3>
+            <div id="subjectsList">Carregando...</div>
+        </div>
+
+        <div id="activitiesArea" class="card hidden">
+            <h3 id="currentSubjectTitle">Atividades</h3>
+            <div id="activitiesList"></div>
+        </div>
+    </div>
+
+    <script src="aluno.js"></script>
+</body>
+</html>
