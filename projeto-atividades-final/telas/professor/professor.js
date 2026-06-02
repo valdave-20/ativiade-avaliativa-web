@@ -58,6 +58,45 @@ document.getElementById('activityForm').addEventListener('submit', async (e) => 
     alert('Atividade postada com sucesso!');
     document.getElementById('activityForm').reset(); // Limpa os campos após salvar
 });
+// No seu arquivo JavaScript do front-end
+document.getElementById('btn-exportar').addEventListener('click', async () => {
+    const botao = document.getElementById('btn-exportar');
+    botao.innerText = "Gerando...";
+    botao.disabled = true;
+
+    try {
+        const resposta = await fetch('/api/professor/exportar-notas', {
+            method: 'GET',
+            // Adicione os headers de autorização (ex: Bearer token) se necessário
+        });
+
+        if (!resposta.ok) throw new Error("Erro na requisição");
+
+        // 1. Transforma a resposta em um "Blob" (um objeto de arquivo bruto)
+        const blob = await resposta.blob();
+        
+        // 2. Cria uma URL temporária na memória do navegador para esse arquivo
+        const urlDownload = window.URL.createObjectURL(blob);
+        
+        // 3. Cria um link invisível e simula um clique do usuário nele
+        const link = document.createElement('a');
+        link.href = urlDownload;
+        link.download = "relatorio_turma.csv"; // Nome sugerido para o salvamento
+        document.body.appendChild(link);
+        link.click();
+        
+        // 4. Limpa a sujeira do DOM e da memória
+        link.remove();
+        window.URL.revokeObjectURL(urlDownload);
+
+    } catch (erro) {
+        alert("Não foi possível gerar o relatório. Tente novamente.");
+        console.error(erro);
+    } finally {
+        botao.innerText = "📥 Exportar Notas (CSV)";
+        botao.disabled = false;
+    }
+});
 
 // Carrega as matérias ao abrir a página
 loadSubjects();
