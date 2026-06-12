@@ -4,34 +4,95 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Administrativo</title>
-    <link rel="stylesheet" href="../login/login.css">
+    <link rel="stylesheet" href="admin.css">
     <link rel="shortcut icon" href="../img/logo.jpeg" type="image/x-icon">
 </head>
 <body>
-    <div class="container">
-        <nav>
-            <h2>Painel Admin</h2>
+    <div class="container-admin">
+
+        <header class="header-admin">
+            <h2>Painel Administrativo</h2>
             <button class="logout-btn" onclick="logout()">Sair</button>
-        </nav>
+        </header>
 
-        <div class="card">
-            <h3>Cadastrar Novo Usuário</h3>
-            <form id="registerForm">
-                <input type="text" id="regName" placeholder="Nome Completo" required>
-                <input type="email" id="regEmail" placeholder="E-mail" required>
-                <input type="password" id="regPass" placeholder="Senha" required>
-                <select id="regRole" required>
-                    <option value="student">Aluno</option>
-                    <option value="teacher">Professor</option>
-                </select>
-                <button type="submit">Cadastrar</button>
-            </form>
+        <div class="menu-opcoes">
+            <div class="opcao-card ativa" onclick="mudarAba('usuarios', this)">
+                <h4> Usuários</h4>
+            </div>
+            <div class="opcao-card" onclick="mudarAba('avisos', this)">
+                <h4> Avisos</h4>
+            </div>
+            <div class="opcao-card" onclick="mudarAba('materias', this)">
+                <h4>Matérias</h4>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>Usuários Cadastrados</h3>
-            <div id="usersList">Carregando...</div>
-        </div>
+        <main class="painel-conteudo">
+
+            <!-- ABA: USUÁRIOS -->
+            <section id="sec-usuarios" class="secao-conteudo ativa">
+                <h3>Cadastrar Novo Usuário</h3>
+                <form id="registerForm" style="max-width: 500px;">
+                    <div class="form-grupo">
+                        <label>Nome Completo:</label>
+                        <input type="text" id="regName" placeholder="Nome Completo" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label>E-mail:</label>
+                        <input type="email" id="regEmail" placeholder="E-mail" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label>Senha:</label>
+                        <input type="password" id="regPass" placeholder="Senha" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label>Tipo de Usuário:</label>
+                        <select id="regRole" required>
+                            <option value="student">Aluno</option>
+                            <option value="teacher">Professor</option>
+                        </select>
+                    </div>
+                    <button type="submit">Cadastrar</button>
+                </form>
+
+                <h3 style="margin-top: 30px;">📋 Usuários Cadastrados</h3>
+                <div id="usersList" class="lista-itens">Carregando...</div>
+            </section>
+
+            <!-- ABA: AVISOS -->
+            <section id="sec-avisos" class="secao-conteudo">
+                <h3>📢 Publicar Novo Aviso</h3>
+                <form id="form-aviso" enctype="multipart/form-data" style="max-width: 600px;">
+                    <input type="hidden" name="user_id" value="2">
+                    <div class="form-grupo">
+                        <label>Título:</label>
+                        <input type="text" id="avisoTitle" name="title" placeholder="Título do Aviso" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label>Mensagem:</label>
+                        <textarea id="avisoContent" name="content" rows="4" placeholder="Digite a mensagem do aviso..." required></textarea>
+                    </div>
+                    <div class="form-grupo">
+                        <label>Anexar Imagem (Opcional):</label>
+                        <input type="file" id="avisoImage" name="image" accept="image/png, image/jpeg, image/webp">
+                    </div>
+                    <button type="submit">Publicar Aviso</button>
+                    <p id="mensagem-retorno" style="margin-top: 10px; font-weight: bold;"></p>
+                </form>
+            </section>
+
+            <!-- ABA: MATÉRIAS -->
+            <section id="sec-materias" class="secao-conteudo">
+                <h3>📚 Matérias Cadastradas</h3>
+                <form id="form-subject" style="display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px;">
+                    <input type="text" id="subjectName" placeholder="Nome (ex: Geografia)" required style="flex: 1; min-width: 200px;">
+                    <input type="text" id="subjectDesc" placeholder="Descrição rápida" style="flex: 2; min-width: 200px;">
+                    <button type="submit" style="padding: 10px 15px;">Criar Matéria</button>
+                </form>
+                <div id="subjectsList" class="lista-itens">Carregando matérias...</div>
+            </section>
+
+        </main>
     </div>
 
     <script src="admin.js"></script>

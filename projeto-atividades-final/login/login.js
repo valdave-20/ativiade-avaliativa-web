@@ -24,7 +24,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
                 window.location.assign('../telas/professor/tela-professor.html');
             } 
             else {
-                window.location.assign('../admin.html');
+                window.location.assign('../admin/admin.html');
             }
         } else {
             alert('Erro: ' + data.message);

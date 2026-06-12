@@ -77,6 +77,8 @@ nav {
     justify-content: space-between;
     align-items: center;
     margin-bottom: 1rem;
+    background-color: #276fae;
+    border-radius: 10px;
 }
 
 .hidden { display: none; }

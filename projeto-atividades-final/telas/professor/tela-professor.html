@@ -5,39 +5,110 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Área do Professor</title>
     <link rel="shortcut icon" href="../../img/logo.jpeg" type="image/x-icon">
-    <link rel="stylesheet" href="../../login/login.css">
+    <link rel="stylesheet" href="professor.css">
 </head>
 <body>
-    <div class="container">
-        <nav>
-            <h2 id="userName">Professor</h2>
+    <div class="container-professor">
+        
+        <header class="header-professor">
+            <div class="perfil-info">
+                <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="Foto do Professor" class="foto-professor">
+                <div class="nome-professor">
+                    <h2 id="userName">Carregando...</h2>
+                    <span>Professor(a)</span>
+                </div>
+            </div>
             <button class="logout-btn" onclick="logout()">Sair</button>
-        </nav>
+        </header>
 
-        <div class="card">
-            <h3>Criar Nova Matéria</h3>
-            <form id="subjectForm">
-                <input type="text" id="subName" placeholder="Nome da Matéria" required>
-                <textarea id="subDesc" placeholder="Descrição"></textarea>
-                <button type="submit">Criar Matéria</button>
-            </form>
+        <div class="menu-opcoes">
+            <div class="opcao-card ativa" onclick="mudarAba('materias', this)">
+                <h4>📚 Matérias / Atividades</h4>
+            </div>
+            <div class="opcao-card" onclick="mudarAba('alunos', this)">
+                <h4>🧑‍🎓 Lista de Alunos</h4>
+            </div>
+            <div class="opcao-card" onclick="mudarAba('avisos', this)">
+                <h4>📢 Enviar Avisos</h4>
+            </div>
+            <div class="opcao-card" onclick="mudarAba('notas', this)">
+                <h4>📊 Notas dos Alunos</h4>
+            </div>
         </div>
 
-        <div class="card">
-            <h3>Criar Atividade</h3>
-            <form id="activityForm">
-                <select id="subSelect" required>
-                    <option value="">Selecione a Matéria</option>
-                </select>
-                <input type="text" id="actTitle" placeholder="Título da Atividade" required>
-                <textarea id="actDesc" placeholder="Instruções"></textarea>
-                <input type="date" id="actDate">
-                <button type="submit">Postar Atividade</button>
-                <button id="btn-exportar" class="btn-primario">
+        <main class="painel-conteudo">
+
+            <section id="sec-materias" class="secao-conteudo ativa">
+                <h3>📚 Área de Matérias e Tarefas</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;">
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
+                        <h4>➕ Postar Nova Atividade</h4>
+                        <form id="activityForm" style="margin-top: 15px;">
+                            <div class="form-grupo">
+                                <label>Matéria:</label>
+                                <select id="subSelect" required>
+                                    <option value="">Carregando...</option>
+                                </select>
+                            </div>
+                            <div class="form-grupo">
+                                <label>Título da Atividade:</label>
+                                <input type="text" id="actTitle" placeholder="Ex: Pesquisa de História" required>
+                            </div>
+                            <div class="form-grupo">
+                                <label>Instruções:</label>
+                                <textarea id="actDesc" rows="3" placeholder="O que eles devem fazer?"></textarea>
+                            </div>
+                            <div class="form-grupo">
+                                <label>Data Final (Opcional):</label>
+                                <input type="date" id="actDate">
+                            </div>
+                            <button type="submit">Postar Atividade</button>
+                        </form>
+                    </div>
+
+                    <div style="background: #f8f9fa; padding: 20px; border-radius: 8px;">
+                        <h4>👀 Correção e Respostas</h4>
+                        <p style="font-size: 14px; color: #666; margin-bottom: 10px;">Aqui aparecerão as entregas dos alunos para você validar.</p>
+                        <div id="entregasList" class="lista-itens">
+                            <p style="color: #999; font-style: italic;">Nenhuma resposta enviada ainda.</p>
+                            </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="sec-alunos" class="secao-conteudo">
+                <h3>🧑‍🎓 Alunos da Plataforma</h3>
+                <div id="alunosList" class="lista-itens">
+                    <p>Carregando lista de alunos...</p>
+                </div>
+            </section>
+
+            <section id="sec-avisos" class="secao-conteudo">
+                <h3>📢 Mandar Aviso para a Turma</h3>
+                <form id="form-aviso" style="max-width: 600px;">
+                    <div class="form-grupo">
+                        <label>Título:</label>
+                        <input type="text" id="avisoTitle" placeholder="Ex: Prova Adiada" required>
+                    </div>
+                    <div class="form-grupo">
+                        <label>Mensagem:</label>
+                        <textarea id="avisoContent" rows="4" placeholder="Escreva seu aviso aqui..." required></textarea>
+                    </div>
+                    <button type="submit">Enviar Aviso</button>
+                    <p id="msg-aviso" style="margin-top: 10px; font-weight: bold;"></p>
+                </form>
+            </section>
+
+            <section id="sec-notas" class="secao-conteudo">
+                <h3>📊 Fechamento de Notas</h3>
+                <p style="margin-bottom: 20px; color: #555;">Baixe o relatório em CSV com todas as notas atribuídas às atividades.</p>
+                <button id="btn-exportar" class="btn-sucesso" onclick="exportarNotas()">
                     📥 Exportar Notas (CSV)
                 </button>
-            </form>
-        </div>
+            </section>
+
+        </main>
     </div>
 
     <script src="professor.js"></script>
